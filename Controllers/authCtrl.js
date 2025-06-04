@@ -47,7 +47,7 @@ module.exports =
                 
                 //Return the new user
                 res.status(201).json(
-                    {Message: "Success! " + user.firstName + ", your account has been created" + user});
+                    {Message: "Success! " + user.firstName + ", your account has been created"});
         }
         catch(error)
         {
@@ -325,7 +325,7 @@ module.exports =
     //API to enable students view courses enrolled for
     viewcourseenrollment: async function(req, res)
     {
-        const matric_no = req.body;
+        const {matric_no} = req.body;
 
         if(!matric_no)
         {
@@ -339,8 +339,8 @@ module.exports =
             return res.status(404).json({Message: "Error: Student not enrolled yet"});
         }
 
-        return res.status(200).json({Message: "Success"},
-        isEnrolled
+        return res.status(200).json({Message: "Success",
+        isEnrolled}
         )
     },
 
