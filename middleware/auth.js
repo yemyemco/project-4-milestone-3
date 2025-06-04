@@ -1,31 +1,33 @@
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv").config();
 
 //Verify user's token   
-const {verifyToken} = (req, res, next)=>
+module.exports = 
 {
-    try {
-    let getToken = req.headers["x-access-token"] || req.header("Authorisation") || req.body.token || req.query.token;
-
-    if(!getToken)
+    verifyToken: function (req, res, next)
     {
-        return res.status(400).json({Message: "Token error: Log in again"});
-    }
-        
-        //Verify token
-        getToken = jwt.verify(getToken, config.ACCESS_TOKEN);
+        try {
+        let getToken = req.headers["x-access-token"] || req.header("Authorisation") || req.body.token || req.query.token;
 
-        return next();
-
-    } catch (error) {
-        if(error.message == "jwt expired")
+        if(!getToken)
         {
-            return res.status(400).json({Message: "Session expired. Please log in again"});
+            return res.status(400).json({Message: "Token error: Log in again"});
         }
-        else
-        {
-            return res.status(400).json({Message: "Encountered error: " + error.message});
-        }
-    }
-}    
+            
+            //Verify token
+            getToken = jwt.verify(getToken, process.env.ACCESS_TOKEN);
 
-module.exports = verifyToken;
+            return next();
+
+        } catch (error) {
+            if(error.message == "jwt expired")
+            {
+                return res.status(400).json({Message: "Session expired. Please log in again"});
+            }
+            else
+            {
+                return res.status(400).json({Message: "Encountered error: " + error.message});
+            }
+        }
+    }       
+}
