@@ -272,14 +272,14 @@ module.exports =
         }
 
         //Insert course registration in student's record
-        // await enrollDB.updateOne({matricNo: matric_no}, {$push: {
-        //     course: {
-        //         code: findCourse.code, 
-        //         title: findCourse.title, 
-        //         unit: findCourse.unit, 
-        //         semester: findCourse.semester
-        //     }
-        // }});
+        await enrollDB.updateOne({matricNo: matric_no}, {$push: {
+            course: {
+                code: findCourse.code, 
+                title: findCourse.title, 
+                unit: findCourse.unit, 
+                semester: findCourse.semester
+            }
+        }});
 
         return res.status(201).json({Message: "Success!" + " " + findCourse.code + " was registered." });
     },
