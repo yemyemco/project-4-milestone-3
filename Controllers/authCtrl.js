@@ -258,23 +258,30 @@ module.exports =
             return res.status(404).json({Message: "Error: Course not found. Check available courses"});
         }
 
-        //Insert course registration in student's record
-        const course = await enrollDB.updateOne({matricNo: matric_no}, {$push: {
-            course: {
-                code: findCourse.code, 
-                title: findCourse.title, 
-                unit: findCourse.unit, 
-                semester: findCourse.semester
-            }
-        }});
-
-        return res.status(201).json({Message: "Success!"},
-        {
-            // Code: course.code,
-            // Title: course.title,
-            // Unit: course.unit,
-            // semester: course.semester
+        //Check whether course has already been registered
+        const dupCourse = await enrollDB.findOne({
+            $and: [
+                {matricNo: matric_no}, 
+                {code: course_code}
+            ]
         });
+        console.log(dupCourse);
+        if(dupCourse)
+        {
+            return res.status(400).json({Message: dupCourse + " has already been registered"});
+        }
+
+        //Insert course registration in student's record
+        // await enrollDB.updateOne({matricNo: matric_no}, {$push: {
+        //     course: {
+        //         code: findCourse.code, 
+        //         title: findCourse.title, 
+        //         unit: findCourse.unit, 
+        //         semester: findCourse.semester
+        //     }
+        // }});
+
+        return res.status(201).json({Message: "Success!" + " " + findCourse.code + " was registered." });
     },
 
     //API for viewing one enrolled student by course
