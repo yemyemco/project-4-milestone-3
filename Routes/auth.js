@@ -18,16 +18,18 @@ router.post("/enroll-student", authCtrl.enrollstudent);
 //API for view all enrolled students
 router.get("/view-enrolled-students", authCtrl.viewenrolledstudent);
 
-//API for course registration
-router.post("/course-registration", authCtrl.courseregistration);
-
 //API for viewing one enrolled student by course
 router.post("/view-students-by-course", authCtrl.viewstudentsbycourse);
+
+//Milestone 3
+//API for viewing course details
+//Course completion status added
+router.get("/get-course-details", authCtrl.getcoursedetails);
 
 //API to enable students view courses enrolled for
 router.post("/view-course-enrollment", authCtrl.viewcourseenrollment);
 
-//API for viewing course details
-router.get("/get-course-details", authCtrl.getcoursedetails);
+//API for course registration
+router.post("/course-registration", authCtrl.courseregistration);
 
 module.exports = router;
